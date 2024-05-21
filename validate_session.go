@@ -5,8 +5,6 @@ import (
 	"errors"
 	"github.com/aminzdev/auth"
 	"github.com/aminzdev/authserver/protocol"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 func (a *authServer) ValidateSession(_ context.Context, req *protocol.ValidateSessionReq) (*protocol.ValidateSessionRes, error) {
@@ -14,15 +12,15 @@ func (a *authServer) ValidateSession(_ context.Context, req *protocol.ValidateSe
 	if err != nil {
 		switch {
 		case errors.Is(err, auth.ErrWrongCredentials):
-			return nil, status.Error(codes.Unauthenticated, "wrong credentials.")
+			return nil, ErrUnauthenticated
 		case errors.Is(err, auth.ErrSessionNotFound):
-			return nil, status.Error(codes.Unauthenticated, "session not found.")
+			return nil, ErrSessionNotFound
 		case errors.Is(err, auth.ErrExpiredSession):
-			return nil, status.Error(codes.Unauthenticated, "session is expired.")
+			return nil, ErrExpiredSession
 		case errors.Is(err, auth.ErrInternal):
-			return nil, status.Error(codes.Internal, "internal error.")
+			return nil, ErrInternal
 		}
-		return nil, status.Error(codes.Unknown, "unknown error.")
+		return nil, ErrUnknown
 	}
 
 	return &protocol.ValidateSessionRes{}, nil

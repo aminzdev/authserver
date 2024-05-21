@@ -5,8 +5,6 @@ import (
 	"errors"
 	"github.com/aminzdev/auth"
 	"github.com/aminzdev/authserver/protocol"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"time"
 )
 
@@ -15,11 +13,11 @@ func (a *authServer) SignIn(_ context.Context, req *protocol.SignInReq) (*protoc
 	if err != nil {
 		switch {
 		case errors.Is(err, auth.ErrWrongCredentials):
-			return nil, status.Error(codes.Unauthenticated, "wrong credentials.")
+			return nil, ErrUnauthenticated
 		case errors.Is(err, auth.ErrInternal):
-			return nil, status.Error(codes.Internal, "internal error.")
+			return nil, ErrInternal
 		}
-		return nil, status.Error(codes.Unknown, "unknown error.")
+		return nil, ErrUnknown
 	}
 
 	return &protocol.SignInRes{}, nil
