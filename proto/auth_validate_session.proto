@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "/protocol";
+
+import "user.proto";
+
+message ValidateSessionReq {
+  User user = 1;
+}
+
+message ValidateSessionRes {}

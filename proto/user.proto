@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "/protocol";
+
+message User {
+  string name = 1;
+  string code = 2;
+}

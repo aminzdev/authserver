@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package protocol;
+
+option go_package = "/protocol";
+
+message PingReq {}
+
+message PingRes {}
